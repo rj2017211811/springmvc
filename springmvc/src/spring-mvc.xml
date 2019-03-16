@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+   
+   
+    <!-- 控制器 -->			
+
+     <!-- beanNameUrl处理器映射 -->
+	<bean id="beanNameUrlHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+	
+		<property name="order" value="0"/>
+	</bean>
+	
+	  <!-- SimpleUrl处理器映射 -->
+	<bean id="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/a.action">homeController</prop>
+				<prop key="/b.action">homeController</prop>
+				<prop key="/c.action">homeController</prop>
+				<prop key="/hi.action">homeController</prop>
+			</props>
+			
+		</property>
+		<property name="order" value="1"/>
+	
+	</bean>
+	<!-- controllerclassname处理器映射 -->
+	<bean id="controllerClassNameHandlerMapping"  class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"></bean>
+	
+	<!-- 控制器 -->
+	<bean id="homeController" name="/hi.action" class="cn.itcast.springmvc.web.controller.HomeController"></bean>
+	
+	<!-- 使用类名访问时，Controller前面必须小写 -->
+	<bean id="personcommondController"  class="cn.itcast.springmvc.web.controller.PersonCommondController"></bean>
+	
+
+	<bean id="personformController"  class="cn.itcast.springmvc.web.controller.PersonFormController">
+	
+		<!-- 表单视图 -->
+		<property name="formView" value="personcreate"></property>
+		<!-- 成功视图 -->
+		<property name="successView" value="index"></property>
+		
+	</bean>
+	
+	<bean id="mywizardformController" class="cn.itcast.springmvc.web.controller.MywizardFormController">
+		<property name="pages">
+			<list>
+				<value>wizard/personBaseInfo</value>
+				<value>wizard/personEduInfo</value>
+				<value>wizard/personWorkInfo</value>
+			
+			</list>
+		
+		</property>
+	
+	</bean>
+	
+	<!-- 内部资源视图解析器 prefix+logicName+suffix /WEB-INF/jsps+index+.jsp-->
+	<bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 前缀 -->
+		<property name="prefix" value="/WEB-INF/jsps/"/>
+		<!-- 后缀 -->
+		<property name="suffix" value=".jsp"/>
+	</bean>
+</beans>
